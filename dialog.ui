@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FgstyleMakerDialogBase</class>
+ <widget class="QDialog" name="FgstyleMakerDialogBase">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1060</width>
+    <height>720</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>fgstyle Maker — QGISスタイル → .fgstyle 変換</string>
+  </property>
+  <property name="sizeGripEnabled">
+   <bool>true</bool>
+  </property>
+  <layout class="QVBoxLayout" name="mainLayout">
+   <item>
+    <widget class="QGroupBox" name="grpInput">
+     <property name="title">
+      <string>1. 入力</string>
+     </property>
+     <layout class="QHBoxLayout" name="inputLayout">
+      <item>
+       <widget class="QLabel" name="lblInput">
+        <property name="text">
+         <string>ファイル</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="txtInput">
+        <property name="placeholderText">
+         <string>.qgz / .qgs / .qml / .qlr を選択してください</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnBrowse">
+        <property name="text">
+         <string>参照…</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnLoad">
+        <property name="text">
+         <string>読み込み</string>
+        </property>
+        <property name="toolTip">
+         <string>データソースにはアクセスせず、スタイル定義だけを読み取ります</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="grpOptions">
+     <property name="title">
+      <string>2. 変換設定</string>
+     </property>
+     <layout class="QGridLayout" name="optionsLayout">
+      <item row="0" column="6">
+       <widget class="QLabel" name="lblMaxRules">
+        <property name="text">
+         <string>ルール上限</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="7">
+       <widget class="QSpinBox" name="spinMaxRules">
+        <property name="toolTip">
+         <string>1レイヤあたりの色分けルール数の上限。地質図など数百区分のスタイルでは大きめにします。</string>
+        </property>
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>10000</number>
+        </property>
+        <property name="value">
+         <number>1000</number>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="2">
+       <widget class="QCheckBox" name="chkScaleVisibility">
+        <property name="text">
+         <string>レイヤの表示縮尺をQGISの設定に合わせる</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2" colspan="2">
+       <widget class="QCheckBox" name="chkLabeling">
+        <property name="text">
+         <string>ラベル表示をQGISの設定に合わせる</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="6" colspan="2">
+       <widget class="QCheckBox" name="chkRuleLabels">
+        <property name="text">
+         <string>凡例表示名をQGISの設定に合わせる</string>
+        </property>
+        <property name="toolTip">
+         <string>属性値（数字）で分類している場合において、凡例を当該属性値で表示せず、名称で表示したい場合に使用。</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="2">
+       <widget class="QLabel" name="lblDefaultColor">
+        <property name="text">
+         <string>条件式に該当がない場合の配色</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2" colspan="2">
+       <widget class="QComboBox" name="cmbDefaultColor">
+        <property name="toolTip">
+         <string>どのルールにも該当しない地物に設定する色です。プルダウンから自由に選択します。</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="4">
+       <widget class="QLabel" name="lblMinLineWidth">
+        <property name="text">
+         <string>最小線幅 (px)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="5">
+       <widget class="QDoubleSpinBox" name="spinMinLineWidth">
+        <property name="toolTip">
+         <string>QGISの設定がこの値よりも小さい場合に、MapLibre表示用にこの値まで引き上げて表示します。0にすると引き上げが行われません。</string>
+        </property>
+        <property name="decimals">
+         <number>2</number>
+        </property>
+        <property name="minimum">
+         <double>0.000000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>10.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.250000000000000</double>
+        </property>
+        <property name="value">
+         <double>1.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" colspan="4">
+       <widget class="QCheckBox" name="chkNormalizeValues">
+        <property name="text">
+         <string>分類値の表記ゆれを解消する（全角/半角・前後空白）</string>
+        </property>
+        <property name="toolTip">
+         <string>分類値に全角英数字・全角空白・前後空白が含まれる場合に、半角化／トリムした仮想テーブルを追加し、それを基に表示設定を行います。</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="6" colspan="2">
+       <widget class="QCheckBox" name="chkCloseGaps">
+        <property name="text">
+         <string>条件式に当てはまらない属性値を非表示にする</string>
+        </property>
+        <property name="toolTip">
+         <string>条件式に該当しない数値（とび値など）を、前後数値の配色で埋めず、非表示にします。</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="4">
+       <widget class="QLabel" name="lblMinDashGap">
+        <property name="text">
+         <string>破線の最小隙間 (px)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="5">
+       <widget class="QDoubleSpinBox" name="spinMinDashGap">
+        <property name="toolTip">
+         <string>破線の間隔がこの値より狭い場合に広げます。MapLibreでは、間隔が2pxを下回ると重なって実線に見えます0にすると広げません。</string>
+        </property>
+        <property name="decimals">
+         <number>2</number>
+        </property>
+        <property name="minimum">
+         <double>0.000000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>20.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.500000000000000</double>
+        </property>
+        <property name="value">
+         <double>2.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QSplitter" name="splitter">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <widget class="QWidget" name="leftPane">
+      <layout class="QVBoxLayout" name="leftLayout">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="lblLayers">
+         <property name="text">
+          <string>3. 変換対象レイヤ</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTableWidget" name="tblLayers">
+         <property name="alternatingRowColors">
+          <bool>true</bool>
+         </property>
+         <property name="selectionBehavior">
+          <enum>QAbstractItemView::SelectRows</enum>
+         </property>
+         <property name="selectionMode">
+          <enum>QAbstractItemView::SingleSelection</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="selectLayout">
+         <item>
+          <widget class="QPushButton" name="btnSelectAll">
+           <property name="text">
+            <string>すべて選択</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnSelectNone">
+           <property name="text">
+            <string>すべて解除</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="selectSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QTabWidget" name="tabPreview">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tabJson">
+       <attribute name="title">
+        <string>JSONのプレビュー</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="jsonLayout">
+        <item>
+         <widget class="QPlainTextEdit" name="txtPreview">
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+          <property name="lineWrapMode">
+           <enum>QPlainTextEdit::NoWrap</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tabReport">
+       <attribute name="title">
+        <string>変換レポート</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="reportLayout">
+        <item>
+         <widget class="QTextBrowser" name="txtReport"/>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnSaveReport">
+          <property name="text">
+           <string>レポートを保存…</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="grpOutput">
+     <property name="title">
+      <string>4. 出力</string>
+     </property>
+     <layout class="QHBoxLayout" name="outputLayout">
+      <item>
+       <widget class="QLabel" name="lblOutDir">
+        <property name="text">
+         <string>出力先フォルダ</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="txtOutDir">
+        <property name="placeholderText">
+         <string>.fgstyle を書き出すフォルダ</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnOutDir">
+        <property name="text">
+         <string>参照…</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnExport">
+        <property name="text">
+         <string>選択レイヤを .fgstyle に書き出し</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="lblStatus">
+     <property name="text">
+      <string>ファイルを選んで「読み込み」を押してください。</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Close</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

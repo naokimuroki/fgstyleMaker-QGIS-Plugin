@@ -1,0 +1,18 @@
+[general]
+name=fgstyle Maker
+qgisMinimumVersion=3.22
+qgisMaximumVersion=3.44
+description=QGISのシンボル定義(.qml/.qgz)を、ForestGeo Studioのシンボル定義ファイル（.fgstyle）に変換します。
+about=QGISのレンダラ、ラベル、縮尺、不透明度、ベクトルタイルのスタイルを読み取り、MapLibreGLJS で再現可能な範囲について、 .fgstyle (JSON) に変換します。変換できない設定は近似変換します。
+version=1.0.0
+author=Forestgeo.info, Naoki MUROKI
+email=naoki.muroki.84@forestgeo.info
+homepage=https://forestgeo.info/
+tracker=https://forestgeo.info/
+repository=https://github.com/naokimuroki
+tags=symbology,maplibre,fgstyle,ForestGeoStudio,qml
+category=Plugins
+icon=icons/fgstyle_maker.png
+experimental=False
+deprecated=False
+server=False
